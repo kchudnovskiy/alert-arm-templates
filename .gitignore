@@ -3,3 +3,14 @@
 ################################################################################
 
 /.vs/VSWorkspaceState.json
+/.vs/slnx.sqlite
+/.vs/alert-arm-templates/v16/.suo
+/CriticalAlerts/.vs/CriticalAlerts/v16/.suo
+/CriticalAlerts/.vs/CriticalAlerts/DesignTimeBuild/.dtbcache
+/CriticalAlerts/.vs/CriticalAlerts/config/applicationhost.config
+/CriticalAlerts/CriticalAlerts/bin/Debug/staging/CriticalAlerts/NestedTemplates/WebHookActionGroup.json
+/CriticalAlerts/CriticalAlerts/bin/Debug/staging/CriticalAlerts/NestedTemplates/ResultCountAlert.json
+/CriticalAlerts/CriticalAlerts/bin/Debug/staging/CriticalAlerts/NestedTemplates
+/CriticalAlerts/CriticalAlerts/bin/Debug/staging/CriticalAlerts/Deploy-AzureResourceGroup.ps1
+/CriticalAlerts/CriticalAlerts/bin/Debug/staging/CriticalAlerts/CriticalAlert.json
+/CriticalAlerts/CriticalAlerts/bin/Debug/staging/CriticalAlerts/azuredeploy.parameters.json

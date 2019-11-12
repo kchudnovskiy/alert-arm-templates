@@ -1,0 +1,63 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "type": "string",
+      "defaultValue": "Test Action Group",
+      "metadata": {
+        "description": "Name of the action group."
+      }
+    },
+    "shortName": {
+      "type": "string",
+      "defaultValue": "Test",
+      "maxLength": 15,
+      "metadata": {
+        "description": "A short name for the action group."
+      }
+    },
+    "webHook": {
+      "type": "string",
+      "defaultValue": "https://outlook.office.com/webhook/c49fab00-0915-4e1d-af8c-8adcf5f0a44d@a445ee81-2b91-4806-883b-1dc673d59147/IncomingWebhook/481d29fb2a654ece87a3965fae0a3d8c/1f9f1354-d8b5-42cf-9806-6d2a5bc1f20f",
+      "metadata": {
+        "description": "Web hook for the action group."
+      }
+    }
+  },
+  "variables": {
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/actionGroups",
+      "apiVersion": "2019-03-01",
+      "name": "[parameters('name')]",
+      "location": "Global",
+      "comments": "This is the action group which is used to deliver the alert notification. It uses an incoming web hook configured on a Teams support channel to deliver messages.",
+      "properties": {
+        "groupShortName": "[parameters('shortName')]",
+        "enabled": true,
+        "emailReceivers": [],
+        "smsReceivers": [],
+        "webhookReceivers": [
+          {
+            "name": "WebHook",
+            "serviceUri": "[parameters('webHook')]",
+            "useCommonAlertSchema": false
+          }
+        ],
+        "itsmReceivers": [],
+        "azureAppPushReceivers": [],
+        "automationRunbookReceivers": [],
+        "voiceReceivers": [],
+        "logicAppReceivers": [],
+        "azureFunctionReceivers": []
+      }
+    }],
+  "outputs": {
+    "actionGroupId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Insights/actionGroups',parameters('name'))]"
+    }
+  }
+}

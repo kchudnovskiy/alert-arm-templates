@@ -1,0 +1,142 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "type": "string",
+      "defaultValue": "Test Alert",
+      "metadata": {
+        "description": "The name of the alert."
+      }
+    },
+    "description": {
+      "type": "string",
+      "defaultValue": "Test description",
+      "metadata": {
+        "description": "A description for the alert."
+      }
+    },
+    "query": {
+      "type": "string",
+      "defaultValue": "traces",
+      "metadata": {
+        "description": "Query used for the alert."
+      }
+    },
+    "frequency": {
+      "type": "int",
+      "defaultValue": 60,
+      "metadata": {
+        "description": "Frequency for the alert calculation."
+      }
+    },
+    "period": {
+      "type": "int",
+      "defaultValue": 60,
+      "metadata": {
+        "description": "Period for the alert calculation."
+      }
+    },
+    "threshold": {
+      "type": "int",
+      "defaultValue": 0,
+      "metadata": {
+        "description": "Threshold for the result count."
+      }
+    },
+    "severity": {
+      "type": "int",
+      "defaultValue": 1,
+      "allowedValues": [ 0, 1, 2, 3, 4 ],
+      "metadata": {
+        "description": "Threshold for the result count."
+      }
+    },
+    "appsInsightsSubscriptionid": {
+      "type": "string",
+      "defaultValue": "87005926-b41d-4cd6-a60b-98b6ded9b84e",
+      "metadata": {
+        "description": "Azure subscription for the Apps Insights intance."
+      }
+    },
+    "appsInsightsResourceGroup": {
+      "type": "string",
+      "defaultValue": "mainclusters-logging",
+      "metadata": {
+        "description": "Resource group for the Apps Insights intance"
+      }
+    },
+    "appsInsightsInstanceName": {
+      "type": "string",
+      "defaultValue": "/mainclusters-critical-logs",
+      "metadata": {
+        "description": "Name of the Apps Insights intance."
+      }
+    },
+    "actionGroupId": {
+      "type": "string",
+      "defaultValue": "Test group",
+      "metadata": {
+        "description": "Id of the action group to use."
+      }
+    },
+    "webHookPayload": {
+      "type": "string",
+      "defaultValue": "Test payload.",
+      "metadata": {
+        "description": "Payload to be delivered to the action group."
+      }
+    }
+  },
+  "variables": {
+    "name": "[parameters('name')]",
+    "location": "[resourceGroup().location]",
+    "description": "[parameters('description')]",
+    "source": {
+      "query": "[parameters('query')]",
+      "sourceId": "[concat('/subscriptions/', parameters('appsInsightsSubscriptionid'), '/resourceGroups/', parameters('appsInsightsResourceGroup'), '/providers/microsoft.insights/components/', parameters('appsInsightsInstanceName'))]",
+      "type": "ResultCount",
+      "operator": "GreaterThan",
+      "threshold": "[parameters('threshold')]"
+    },
+    "enabledStatus": "true",
+    "schedule": {
+      "frequency": "[parameters('frequency')]",
+      "period": "[parameters('period')]"
+    },
+    "severity": "[parameters('severity')]"
+  },
+  "resources": [
+    {
+      "name": "[parameters('name')]",
+      "type": "Microsoft.Insights/scheduledQueryRules",
+      "apiVersion": "2018-04-16",
+      "location": "[variables('location')]",
+      "properties": {
+        "description": "[parameters('description')]",
+        "enabled": "[variables('enabledStatus')]",
+        "source": {
+          "query": "[variables('source').query]",
+          "dataSourceId": "[variables('source').sourceId]",
+          "queryType": "[variables('source').Type]"
+        },
+        "schedule": {
+          "frequencyInMinutes": "[variables('schedule').frequency]",
+          "timeWindowInMinutes": "[variables('schedule').period]"
+        },
+        "action": {
+          "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction",
+          "severity": "[variables('severity')]",
+          "aznsAction": {
+            "actionGroup": "[array(parameters('actionGroupId'))]",
+            "customWebhookPayload": "[parameters('webHookPayload')]"
+          },
+          "trigger": {
+            "thresholdOperator": "[variables('source').operator]",
+            "threshold": "[variables('source').threshold]"
+          }
+        }
+      }
+    }
+  ]
+}

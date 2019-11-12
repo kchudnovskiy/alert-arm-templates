@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "productName": {
+      "value": "Test Application"
+    },
+    "productShortName": {
+      "value": "Test"
+    },
+    "appsInsightsApplicationName": {
+      "value": "TestApp"
+    },
+    "appsInsightsResourceGroup": {
+      "value": "mainclusters-logging"
+    },
+    "appsInsightsInstanceName": {
+      "value": "mainclusters-critical-logs"
+    },
+    "environment": {
+      "value": "Integration"
+    },
+    "subscriptionId": {
+      "value": "87005926-b41d-4cd6-a60b-98b6ded9b84e"
+    },
+    "supportChannelHookUri": {
+      "value": "https://outlook.office.com/webhook/c49fab00-0915-4e1d-af8c-8adcf5f0a44d@a445ee81-2b91-4806-883b-1dc673d59147/IncomingWebhook/481d29fb2a654ece87a3965fae0a3d8c/1f9f1354-d8b5-42cf-9806-6d2a5bc1f20f"
+    }
+  }
+}
